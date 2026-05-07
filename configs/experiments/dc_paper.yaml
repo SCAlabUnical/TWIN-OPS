@@ -1,0 +1,72 @@
+domain: dc
+base_seed: 13579
+sim:
+  time_unit: ms
+  horizon_ms: 50000
+  warmup_ms: 5000
+  replications_R: 30
+  service_means_ms:
+    m1: 5
+    m2: 10
+  bounds:
+    N1:
+    - 1
+    - 12
+    N2:
+    - 1
+    - 12
+    B1:
+    - 0
+    - 50
+    B2:
+    - 0
+    - 50
+  reference_capacity:
+    N2_ref: 6
+  workload:
+    rho_grid:
+    - 0.75
+    - 0.9
+    burst_flags:
+    - 0
+    - 1
+    burst:
+      P_ms: 5000
+      W_ms: 1000
+      F: 3
+selection:
+  cost_weights:
+    wN: 0.8
+    wB: 0.2
+  elite_size_E: 10
+  pareto_objectives:
+  - rt_p99_ms
+  - drop_rate
+  minimize:
+    rt_p99_ms: true
+    drop_rate: true
+    cost: true
+offline_budgets:
+  M_seeds: 50
+  V_variants_per_seed: 10
+  K_oper_family: 20
+exploration_steps:
+  dN: 1
+  dB: 5
+paired_moves_order:
+- N_upstream_to_downstream
+- N_downstream_to_upstream
+- B_upstream_to_downstream
+- B_downstream_to_upstream
+oper:
+  enforce_unique: true
+  max_attempts: 2000
+  jitter_tries: 20
+  jitter_N:
+  - -1
+  - 1
+  jitter_B:
+  - -2
+  - -1
+  - 1
+  - 2
